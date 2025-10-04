@@ -88,7 +88,7 @@ let drop = drops[i];
 drawLine(drop[0], drop[1], drop[2]);
 drop[2] += drop[3];
 drop[3] += (drop[0] * drop[4]) / 100;
-if (drop[2] < 800 && drop[4] == 1) {
+if (drop[2] < 1500 && drop[4] == 1) {
 newlist.push(drop);
 } else if (drop[2] > 400 && drop[4] == -1) {
 }
