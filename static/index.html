@@ -1,54 +1,139 @@
 <!DOCTYPE html>
-<html>
-    <head>
-      
-
-
-       <script src="js/url.js"></script>
-        <link href="index.css" rel="stylesheet">
-        <title>
-            Epite</title>
-    </head>
-    <body>
-        <div id="particles-js"></div>
-      
-        <h1 onclick="credits()" class="credits">credits</h1>
-      
-      
-          <div class="box">
-
-            <div class="container">
-
-
-    <form>
-            <input type="text" placeholder="Search The Web ..."></input>
-</form>
+<html lang="en">
+<head>
+<link
+href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap"
+rel="stylesheet"
+/>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LHS Proxy</title>
+<hr></hr>
+<style>
+hr{
+position: absolute;
+top: 400px;
+left: 0;
+right: 0;
+transform: translateY(-50%);
+border: none;
+border-top: 1px solid black;
+}
+body {
+margin: 0;
+overflow: hidden;
+background-color: #333;
+}
+canvas {
+position: fixed;
+display: block;
+background-color: #4f4f4f;
+}
+div {
+z-index: 10;
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(
+-50%,
+-50%
+);
+}
+input {
+opacity: 50%;
+border: none;
+background-color: #3a3a3a;
+border-color: #000;
+border-radius: 10px;
+height: 100px;
+width: 300px;
+text-align: center;
+box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+color: whitesmoke;
+font-size: 15pt;
+font-family: "Montserrat";
+}
+floor{
+background-color: green1;
+}
+h1 {
+z-index: 10;
+position: absolute;
+top: 25%;
+left: 50%;
+transform: translate(
+-50%,
+-50%
+);
+font-family: Montserrat;
+color: #3a3a3a;
+font-size: 50pt;
+}
+</style>
+</head>
+<body>
+<h1>LHS Proxy</h1>
+<div class="input" type="text">
+<form><input placeholder="Enter Url Here" /></form>
 </div>
+<canvas id="myCanvas" width="100%" height="100%"></canvas>
+<div class="floor" ></div>
+<script>
+let lines = [[50, 50, -10, 0]];
+function drawRain(drops) {
+let newlist = [];
 
-          </div>
-        
-        
+for (let i = 0; i < drops.length; i += 1) {
+let drop = drops[i];
+drawLine(drop[0], drop[1], drop[2]);
+drop[2] += drop[3];
+drop[3] += (drop[0] * drop[4]) / 100;
+if (drop[2] < 800 && drop[4] == 1) {
+newlist.push(drop);
+} else if (drop[2] > 400 && drop[4] == -1) {
+}
+}
+lines = newlist;
+}
+function drawLine(length, x, y) {
+ctx.shadowBlur = 30;
+ctx.shadowColor = "rgba(255, 255, 255, 1)";
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.lineTo(x, y + length);
 
-        
-        
-           <!--  <a href="https://github.com/titaniumnetwork-dev">Titanium Network</a>
-            <a href="https://github.com/tomphttp">TOMP</a>
-            <a href="https://github.com/titaniumnetwork-dev/Ultraviolet">GitHub</a>
- -->    
- <script src="uv/uv.bundle.js"></script>
- <script src="uv/uv.config.js"></script>
+ctx.lineWidth = length / 30;
+ctx.strokeStyle = "white";
+ctx.lineCap = "round";
+ctx.stroke();
+}
+const canvas = document.getElementById("myCanvas");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight + 700;
 
 
+function summonRandomLine() {
+x = Math.floor(Math.random() * window.innerWidth);
+thisdrop = [Math.random() * 25 + 30, x, -50, Math.random() * 5 + 1, 1];
 
+puddledrop = [...thisdrop];
+puddledrop[4] = -1;
+puddledrop[2] = -puddledrop[2] + 600;
 
- <script src="index.js"></script>
- 
- 
- 
- <script src="js/particles.js"></script>
- <script src="js/app.js"></script>
- <script src="js/zoom.js"></script>
- 
-      
-    </body>
+lines.push(thisdrop);
+}
+setInterval(summonRandomLine, 20);
+function animate() {
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+drawRain(lines);
+
+requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script>
+<script src="uv/uv.bundle.js"></script>
+<script src="uv/uv.config.js"></script>
+<script src="index.js"></script>
+</body>
 </html>
